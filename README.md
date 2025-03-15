@@ -47,10 +47,10 @@ python whatsboth.py
 
 ## CSV File Format
 
-Ensure the `numbers.csv` file contains numbers in this format:
+Ensure the `numbers.csv` file contains numbers in this format: ( without + )
 ```
-+1234567890
-+0987654321
+1234567890
+0987654321
 ```
 
 ## Notes
