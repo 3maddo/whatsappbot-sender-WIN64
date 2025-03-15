@@ -31,7 +31,8 @@ whatsappbot/
 ├── PyWhatKit_DB.txt
 ├── sent_numbers.csv
 ├── THIRD_PARTY_NOTICES.chromedriver
-└── whatsboth.py
+├── whatsboth.py
+└── autoHotkey.ahk
 ```
 
 ## Usage
@@ -47,7 +48,7 @@ python whatsboth.py
 
 ## CSV File Format
 
-Ensure the `numbers.csv` file contains numbers in this format: ( without + )
+Ensure the `numbers.csv` file contains numbers in this format: ( whithout + )
 ```
 1234567890
 0987654321
@@ -56,6 +57,11 @@ Ensure the `numbers.csv` file contains numbers in this format: ( without + )
 ## Notes
 - Make sure ChromeDriver is compatible with your Chrome version.
 - Allow the bot enough time to interact with WhatsApp Web.
+- An **AutoHotkey script (`autoHotkey.ahk`)** is included to automate the process of attaching images. Once WhatsApp Web is open, this script will handle the file selection and sending process. Run the script by double-clicking it or using the following command:
+```bash
+AutoHotkey.exe autoHotkey.ahk
+```
+  Ensure AutoHotkey is installed on your system for this to work.
 
 ## Disclaimer
 This project is for educational purposes only. Use it responsibly and comply with WhatsApp's terms of service.
