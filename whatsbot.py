@@ -15,10 +15,10 @@ HELLO WORLD
 """
 
 # Path to the CSV file with numbers
-csv_file_path = "C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\numbers.csv"
+csv_file_path = "C:\\PATH\\numbers.csv"
 
 # Path to the image to be sent
-image_path = "C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\image.jpg"
+image_path = "C:\\PATH\\image.jpg"
 
 # Function to open the contact via number
 def open_contact_by_number(number):
@@ -62,7 +62,7 @@ def read_sent_numbers(file_path):
 
 # Save numbers that have been sent messages to a new file
 def save_sent_numbers(sent_numbers):
-    with open("C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\sent_numbers.csv", mode='w', newline='', encoding='utf-8') as file:
+    with open("C:\\PATH\\sent_numbers.csv", mode='w', newline='', encoding='utf-8') as file:
         csv_writer = csv.writer(file)
         csv_writer.writerow(["Number"])
         for number in sent_numbers:
@@ -72,7 +72,7 @@ def save_sent_numbers(sent_numbers):
 numbers = read_numbers_from_csv(csv_file_path)
 
 # Read previously sent numbers
-sent_numbers = read_sent_numbers("C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\sent_numbers.csv")
+sent_numbers = read_sent_numbers("C:\\PATH\\sent_numbers.csv")
 
 # List to store numbers sent in this session
 new_sent_numbers = []
