@@ -5,58 +5,49 @@ import webbrowser
 import pyperclip
 import requests
 
-# الانتظار قليلاً حتى تتمكن من فتح واتساب لسطح المكتب
-print("انتظر قليلاً، ثم ركز على نافذة واتساب...")
+# Wait a bit to open WhatsApp Desktop
+print("Wait a bit, then focus on the WhatsApp window...")
 time.sleep(5)
 
-# الرسالة التي تريد إرسالها
+# The message to be sent
 message = """
-هلا، معاكم صوفيا من متجر 612! ✨
-
-حابين نقدم لكم زيت بذور الصبّار الأصلي – سرّ الجمال الطبيعي!
-
-💥 عرض لفترة محدودة: 3 زجاجات (10 مل) بس 30 دينار كويتي!
-
-متجرنا مو بس زيت، عندنا مكملات غذائية وأيضا استشارات طبية مجانية!
-الكمية محدودة والتوصيل سريع 🚚
-للحجز والاستفسارات، تقدرون تروحون على 
-https://www.herbalistclinic.com
+HELLO WORLD
 """
 
-# مسار ملف CSV الذي يحتوي على الأرقام
+# Path to the CSV file with numbers
 csv_file_path = "C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\numbers.csv"
 
-# مسار الصورة التي تريد إرسالها
+# Path to the image to be sent
 image_path = "C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\image.jpg"
 
-# دالة لفتح جهة الاتصال بناءً على الرقم
+# Function to open the contact via number
 def open_contact_by_number(number):
     url = f'https://wa.me/{number}'
     webbrowser.open(url)
-    time.sleep(12)  # الانتظار قليلاً حتى يتم تحميل الصفحة بشكل جيد
-    
+    time.sleep(12)  # Wait a bit for the page to load
+
     try:
         response = requests.get(url)
         if response.status_code != 200:
-            print(f"الرقم {number} ليس لديه حساب واتساب.")
+            print(f"Number {number} does not have a WhatsApp account.")
             return False
     except requests.exceptions.RequestException as e:
-        print(f"خطأ في الوصول إلى الرقم {number}: {e}")
+        print(f"Error accessing number {number}: {e}")
         return False
 
     return True
 
-# قراءة الأرقام من ملف CSV
+# Read numbers from the CSV file
 def read_numbers_from_csv(file_path):
     numbers = []
     with open(file_path, mode='r', encoding='utf-8') as file:
         csv_reader = csv.reader(file)
         next(csv_reader)
         for row in csv_reader:
-            numbers.append(row[0])  # إضافة الرقم إلى القائمة
+            numbers.append(row[0])  # Add number to the list
     return numbers
 
-# قراءة الأرقام المرسلة سابقًا من ملف CSV
+# Read previously sent numbers from the CSV file
 def read_sent_numbers(file_path):
     sent_numbers = set()
     try:
@@ -69,7 +60,7 @@ def read_sent_numbers(file_path):
         pass
     return sent_numbers
 
-# حفظ الأرقام التي تم إرسال الرسائل إليها في ملف جديد
+# Save numbers that have been sent messages to a new file
 def save_sent_numbers(sent_numbers):
     with open("C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\sent_numbers.csv", mode='w', newline='', encoding='utf-8') as file:
         csv_writer = csv.writer(file)
@@ -77,56 +68,57 @@ def save_sent_numbers(sent_numbers):
         for number in sent_numbers:
             csv_writer.writerow([number])
 
-# قراءة الأرقام من ملف CSV
+# Read numbers from the CSV file
 numbers = read_numbers_from_csv(csv_file_path)
 
-# قراءة الأرقام المرسلة سابقًا
+# Read previously sent numbers
 sent_numbers = read_sent_numbers("C:\\Users\\emada\\OneDrive\\Desktop\\whatsappbot\\sent_numbers.csv")
 
-# قائمة لحفظ الأرقام التي تم إرسال الرسائل إليها في هذه الجلسة
+# List to store numbers sent in this session
 new_sent_numbers = []
 
-# إرسال صورة ثم رسالة لكل رقم
+# Send image and message to each number
 for i, number in enumerate(numbers):
-    if i >= 80:  # إرسال الرسائل إلى 40 رقم فقط
+    if i >= 80:  # Send messages to 40 numbers only
         break
-    
-    if number in sent_numbers:
-        print(f"الرقم {number} تم إرسال رسالة له بالفعل.")
-        continue  # الانتقال إلى الرقم التالي
-    
-    if not open_contact_by_number(number):  # إذا لم يكن الرقم على واتساب
-        continue  # تخطي الرقم
-    
-    print(f"إرسال صورة ثم رسالة إلى: {number}")
-    time.sleep(5)  # الانتظار قليلاً حتى يفتح الرابط بشكل صحيح
 
-    pyautogui.click(100, 100)  # النقر في مكان عشوائي في نافذة المتصفح للتأكد من أن الفوكس على النافذة
-    
-    # إرسال الصورة أولاً
+    if number in sent_numbers:
+        print(f"Number {number} has already been messaged.")
+        continue  # Move to the next number
+
+    if not open_contact_by_number(number):  # If the number is not on WhatsApp
+        continue  # Skip the number
+
+    print(f"Sending image and message to: {number}")
+    time.sleep(5)  # Wait a bit for the link to open
+
+    pyautogui.click(100, 100)  # Click a random spot in the browser to ensure focus
+
+    # Send the image first
     pyautogui.hotkey('ctrl', 'shift', 'a')
-    time.sleep(25)  # الانتظار قليلاً حتى يتم فتح نافذة تحميل الصورة
+    time.sleep(25)  # Wait a bit for the upload window to open
     pyautogui.write(image_path)
     pyautogui.press('enter')
-    time.sleep(5)  # الانتظار قليلاً بعد إرسال الصورة
+    time.sleep(5)  # Wait a bit after sending the image
 
-    # نسخ الرسالة إلى الحافظة باستخدام pyperclip
+    # Copy the message to the clipboard using pyperclip
     pyperclip.copy(message)
 
-    # لصق الرسالة من الحافظة
+    # Paste the message from the clipboard
     pyautogui.hotkey('ctrl', 'v')
     pyautogui.keyDown('enter')
-    time.sleep(3)  # فترة انتظار قصيرة لمحاكاة الضغط
+    time.sleep(3)  # Short wait to simulate the press
     pyautogui.keyUp('enter')
     time.sleep(3)
-    # إضافة الرقم إلى قائمة الأرقام المرسلة في هذه الجلسة
-    new_sent_numbers.append(number)
-    print(f"تم إرسال الصورة والرسالة إلى {number}")
 
-# دمج الأرقام المرسلة في هذه الجلسة مع الأرقام المرسلة مسبقًا
+    # Add the number to the sent list for this session
+    new_sent_numbers.append(number)
+    print(f"Image and message sent to {number}")
+
+# Merge sent numbers from this session with previously sent numbers
 sent_numbers.update(new_sent_numbers)
 
-# حفظ الأرقام التي تم إرسال الرسائل إليها
+# Save the numbers that have been messaged
 save_sent_numbers(sent_numbers)
 
-print("تم إرسال الصور والرسائل لجميع الأرقام (حتى 40).")
+print("Images and messages have been sent to all numbers (up to 40).")
